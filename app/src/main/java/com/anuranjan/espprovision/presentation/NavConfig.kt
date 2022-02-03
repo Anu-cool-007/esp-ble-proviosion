@@ -7,8 +7,10 @@ import androidx.navigation.compose.composable
 import com.anuranjan.espprovision.presentation.custom_scanner_screen.CustomScannerScreen
 import com.anuranjan.espprovision.presentation.esp_scanner_screen.EspScannerScreen
 import com.anuranjan.espprovision.presentation.home_screen.HomeScreen
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
 
 
+@ExperimentalPermissionsApi
 @Composable
 fun NavConfig(
     navController: NavHostController,
