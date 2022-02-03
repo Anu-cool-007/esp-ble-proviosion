@@ -1,9 +1,6 @@
 package com.anuranjan.espprovision.presentation.custom_scanner_screen
 
 import android.Manifest
-import android.content.pm.PackageManager
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.Preview
@@ -23,38 +20,30 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
+import com.anuranjan.espprovision.presentation.common.RequestPermsWrapper
 import com.anuranjan.espprovision.service.QRAnalyzer
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
 
+@ExperimentalPermissionsApi
 @Composable
 fun CustomScannerScreen() {
-    var qrCode by remember { mutableStateOf("") }
+    val permissionList = listOf(
+        Manifest.permission.CAMERA,
+        Manifest.permission.BLUETOOTH,
+        Manifest.permission.BLUETOOTH_ADMIN,
+        Manifest.permission.ACCESS_FINE_LOCATION
+    )
 
-    val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
+    val context = LocalContext.current
+
+    var qrCode by remember { mutableStateOf("") }
     val cameraProviderFuture = remember {
         ProcessCameraProvider.getInstance(context)
     }
 
-    var hasCameraPerms by remember {
-        mutableStateOf(
-            ContextCompat.checkSelfPermission(
-                context,
-                Manifest.permission.CAMERA
-            ) == PackageManager.PERMISSION_GRANTED
-        )
-    }
-
-    val launcher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.RequestPermission(),
-        onResult = { granted -> hasCameraPerms = granted }
-    )
-
-    LaunchedEffect(key1 = true) {
-        launcher.launch(Manifest.permission.CAMERA)
-    }
-
     Column(modifier = Modifier.fillMaxSize()) {
-        if (hasCameraPerms) {
+        RequestPermsWrapper(permissionList = permissionList) {
             AndroidView(
                 factory = { context ->
                     val previewView = PreviewView(context)
