@@ -73,6 +73,9 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0"
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.4.0"
 
+    // Gson
+    implementation 'com.google.code.gson:gson:2.8.9'
+
     // Dagger-Hilt
     kapt 'com.google.dagger:hilt-compiler:2.40.5'
     kapt 'com.google.dagger:hilt-android-compiler:2.40.5'
