@@ -12,10 +12,11 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
+import com.anuranjan.espprovision.model.ProvPayload
 import com.anuranjan.espprovision.service.QRAnalyzer
 
 @Composable
-fun QRScanner(modifier: Modifier, onCodeScanned: (String) -> Unit) {
+fun QRScanner(modifier: Modifier = Modifier, onCodeScanned: (ProvPayload) -> Unit) {
 
     val lifecycleOwner = LocalLifecycleOwner.current
     val currentContext = LocalContext.current

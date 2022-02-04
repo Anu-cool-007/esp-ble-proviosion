@@ -1,13 +1,17 @@
 package com.anuranjan.espprovision.service
 
 import android.graphics.ImageFormat
+import android.util.Log
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.ImageProxy
+import com.anuranjan.espprovision.model.ProvPayload
+import com.google.gson.Gson
+import com.google.gson.JsonSyntaxException
 import com.google.zxing.*
 import com.google.zxing.common.HybridBinarizer
 import java.nio.ByteBuffer
 
-class QRAnalyzer(private val onQrCodeScanned: (String) -> Unit) : ImageAnalysis.Analyzer {
+class QRAnalyzer(private val onQrCodeScanned: (ProvPayload) -> Unit) : ImageAnalysis.Analyzer {
 
     private val supportedImageFormatList = listOf(
         ImageFormat.YUV_420_888,
@@ -36,9 +40,12 @@ class QRAnalyzer(private val onQrCodeScanned: (String) -> Unit) : ImageAnalysis.
                     setHints(mapOf(DecodeHintType.POSSIBLE_FORMATS to arrayListOf(BarcodeFormat.QR_CODE)))
                 }.decode(binaryBitmap)
 
-                onQrCodeScanned(result.text)
+                onQrCodeScanned(Gson().fromJson(result.text, ProvPayload::class.java))
+            } catch (e: JsonSyntaxException) {
+                // GSON can't find json text
+                Log.e("QR ANALYZER", e.message?: "JSON ERROR")
+
             } catch (e: Exception) {
-                e.printStackTrace()
             } finally {
                 image.close()
             }
