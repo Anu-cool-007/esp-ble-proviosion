@@ -1,4 +1,4 @@
-package com.anuranjan.espprovision.ui.theme
+package com.anuranjan.espprovision.presentation.ui.theme
 
 import androidx.compose.material.Typography
 import androidx.compose.ui.text.TextStyle

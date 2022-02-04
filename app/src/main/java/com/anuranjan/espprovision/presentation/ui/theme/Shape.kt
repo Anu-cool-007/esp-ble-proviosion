@@ -1,4 +1,4 @@
-package com.anuranjan.espprovision.ui.theme
+package com.anuranjan.espprovision.presentation.ui.theme
 
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Shapes
