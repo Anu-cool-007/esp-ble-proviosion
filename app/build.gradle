@@ -1,6 +1,8 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
 }
 
 android {
@@ -70,6 +72,13 @@ dependencies {
     // Coroutine Lifecycle Scopes
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0"
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.4.0"
+
+    // Dagger-Hilt
+    kapt 'com.google.dagger:hilt-compiler:2.40.5'
+    kapt 'com.google.dagger:hilt-android-compiler:2.40.5'
+    implementation 'com.google.dagger:hilt-android:2.40.5'
+    implementation "androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha03"
+    implementation 'androidx.hilt:hilt-navigation-compose:1.0.0'
 
     // ESP prov
     implementation 'com.github.espressif:esp-idf-provisioning-android:lib-2.0.11'
