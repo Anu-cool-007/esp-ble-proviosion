@@ -63,6 +63,14 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-viewmodel-compose:2.4.0"
     implementation "androidx.navigation:navigation-compose:2.4.0"
 
+    // Coroutines
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0-native-mt'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.0-native-mt'
+
+    // Coroutine Lifecycle Scopes
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.4.0"
+
     // ESP prov
     implementation 'com.github.espressif:esp-idf-provisioning-android:lib-2.0.11'
 
