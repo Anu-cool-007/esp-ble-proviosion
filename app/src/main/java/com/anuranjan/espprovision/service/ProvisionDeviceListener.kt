@@ -19,17 +19,13 @@ class ProvisionDeviceListener(
         listenCreateSessionFailed(e?.toAppException() ?: defaultException)
     }
 
-    override fun wifiConfigSent() {
-        listenWifiConfigSent()
-    }
+    override fun wifiConfigSent() = listenWifiConfigSent()
 
     override fun wifiConfigFailed(e: Exception?) {
         listenWifiConfigFailed(e?.toAppException() ?: defaultException)
     }
 
-    override fun wifiConfigApplied() {
-        listenWifiConfigApplied()
-    }
+    override fun wifiConfigApplied() = listenWifiConfigApplied()
 
     override fun wifiConfigApplyFailed(e: Exception?) {
         listenWifiConfigApplyFailed(e?.toAppException() ?: defaultException)
@@ -46,9 +42,7 @@ class ProvisionDeviceListener(
         listenProvisioningFailedFromDevice(message)
     }
 
-    override fun deviceProvisioningSuccess() {
-        listenDeviceProvisioningSuccess()
-    }
+    override fun deviceProvisioningSuccess() = listenDeviceProvisioningSuccess()
 
     override fun onProvisioningFailed(e: Exception?) {
         listenOnProvisioningFailed(e?.toAppException() ?: defaultException)
