@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.anuranjan.espprovision.presentation.common.ProgressCard
@@ -28,8 +27,6 @@ fun CustomScannerScreen(viewModel: CustomScannerViewModel = hiltViewModel()) {
         Manifest.permission.BLUETOOTH_ADMIN,
         Manifest.permission.ACCESS_FINE_LOCATION
     )
-
-    val context = LocalContext.current
 
     RequestPermsWrapper(permissionList = permissionList) {
         Box(modifier = Modifier.fillMaxSize()) {

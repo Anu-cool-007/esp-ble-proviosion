@@ -23,6 +23,7 @@ fun QRScanner(modifier: Modifier = Modifier, onCodeScanned: (ProvPayload) -> Uni
     val cameraProviderFuture = remember {
         ProcessCameraProvider.getInstance(currentContext)
     }
+    var imageScanned = false
     AndroidView(
         factory = { context ->
             val previewView = PreviewView(context)
@@ -40,7 +41,10 @@ fun QRScanner(modifier: Modifier = Modifier, onCodeScanned: (ProvPayload) -> Uni
             imageAnalysis.setAnalyzer(
                 ContextCompat.getMainExecutor(context),
                 QRAnalyzer { result ->
-                    onCodeScanned(result)
+                    if (!imageScanned) {
+                        imageScanned = true
+                        onCodeScanned(result)
+                    }
                 }
             )
             try {
