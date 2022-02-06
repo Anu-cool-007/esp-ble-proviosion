@@ -11,18 +11,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.anuranjan.espprovision.model.ProvPayload
 import com.anuranjan.espprovision.presentation.common.ProgressCard
 import com.anuranjan.espprovision.presentation.common.RequestPermsWrapper
-import com.espressif.provisioning.ESPConstants
-import com.espressif.provisioning.ESPProvisionManager
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
-import com.google.gson.Gson
 
 @ExperimentalPermissionsApi
 @Composable
 fun CustomScannerScreen(viewModel: CustomScannerViewModel = hiltViewModel()) {
-    val state = viewModel.state.value
+    val cameraState = viewModel.cameraState.value
+    val bleScanState = viewModel.bleScanState.value
+    val provState = viewModel.provState.value
 
     val permissionList = listOf(
         Manifest.permission.CAMERA,
@@ -32,26 +30,10 @@ fun CustomScannerScreen(viewModel: CustomScannerViewModel = hiltViewModel()) {
     )
 
     val context = LocalContext.current
-    val espProvManager = ESPProvisionManager.getInstance(context)
-
-    val espDevice = espProvManager.createESPDevice(
-        ESPConstants.TransportType.TRANSPORT_BLE,
-        ESPConstants.SecurityType.SECURITY_1
-    )
-
-//    val bleScanListener = BLEScanListener()
-//
-//    if (ActivityCompat.checkSelfPermission(
-//            context,
-//            Manifest.permission.ACCESS_FINE_LOCATION
-//        ) == PackageManager.PERMISSION_GRANTED
-//    ) {
-//        espProvManager.searchBleEspDevices("", bleScanListener)
-//    }
 
     RequestPermsWrapper(permissionList = permissionList) {
         Box(modifier = Modifier.fillMaxSize()) {
-            if (!state.isQRCodeScanned) {
+            if (!cameraState.isQRCodeScanned) {
                 QRScanner(modifier = Modifier.fillMaxSize()) { result ->
                     viewModel.setProvPayload(result)
                 }
@@ -60,15 +42,19 @@ fun CustomScannerScreen(viewModel: CustomScannerViewModel = hiltViewModel()) {
                     modifier = Modifier.align(Alignment.Center),
                     verticalArrangement = Arrangement.spacedBy(10.dp),
                 ) {
-                    ProgressCard(isComplete = state.isQRCodeScanned, text = "Scanned QR code")
-                    ProgressCard(isComplete = state.isDeviceFound, text = "Device Found")
+                    ProgressCard(isComplete = cameraState.isQRCodeScanned, text = "Scanned QR code")
+                    ProgressCard(isComplete = bleScanState.isScanComplete, text = "Device Found")
                     ProgressCard(
-                        isComplete = state.isDeviceProvisioned,
-                        text = "Device Provisioned"
+                        isComplete = provState.isWifiConfigSent,
+                        text = "Wifi Config Sent"
                     )
                     ProgressCard(
-                        isComplete = state.isDeviceConnectedToWifi,
-                        text = "Device Connected to Wifi"
+                        isComplete = provState.isWifiConfigApplied,
+                        text = "Wifi Config Applied"
+                    )
+                    ProgressCard(
+                        isComplete = provState.isDeviceProvisioned,
+                        text = "Device Provisioned"
                     )
                 }
             }
